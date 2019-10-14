@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration scan="true" scanPeriod="1 seconds" debug="true">
+
+    <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
+    <timestamp key="byHour" datePattern="yyyyMMdd_HH"/>
+    <timestamp key="byMinute" datePattern="yyyyMMdd'T'HH:mm"/>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] - %msg%n"/>
+    <property name="charsetEncoding" value="UTF-8"/>
+
+    <!--控制台日志-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${pattern}</pattern>
+            <charset>${charsetEncoding}</charset>
+        </encoder>
+    </appender>
+    <!--myibatis log configure-->
+    <logger name="com.hsy.mybatis.sample.mapper" level="TRACE"/>
+    <!--设置多个级别的日志-->
+    <root level="debug">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>

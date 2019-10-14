@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 具体配置内容 -->
+    <!--
+    targetRuntime 设置成MyBatis3Simple，主要是为了避免生成于Example相关的代码，如果需要Example相关的代码，也可以设置成Mybatis3
+    defaultModelType设置为flat，目的是使每个表只生成一个实体类，当没有复杂的类继承时，使用起来更方便
+    -->
+    <context id="MariadbContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <!--beginningDelimiter、endingDelimiter mysql数据库使用`-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!--注释生成器中配置了生成数据库的注释信息，并且禁止在注释中生成日期-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!--简单的配置了数据库的连接信息-->
+        <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
+                        connectionURL="jdbc:mariadb://192.168.216.200:3306/bigdata"
+                        userId="root"
+                        password="root@mariadb">
+        </jdbcConnection>
+
+        <!--实体对应的包名-->
+        <javaModelGenerator targetPackage="com.hsy.mybatis.sample.entity"
+                            targetProject="/Users/heshiyuan/data/devTools/repo/git/mybatis/mybatis-sample/src/main/java">
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper"  targetProject="/Users/heshiyuan/data/devTools/repo/git/mybatis/mybatis-sample/src/main/resources"/>
+        <!--生成mapper，XMLMAPPER表示接口和mapper分离-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.hsy.mybatis.sample.dao"
+                             targetProject="/Users/heshiyuan/data/devTools/repo/git/mybatis/mybatis-sample/src/main/java"/>
+
+        <!--% 通配符 匹配数据库中的所有表-->
+        <table tableName="%">
+            <!--所有表都有自增主键的id字段，sqlStatement针对当前数据库为Mariadb-->
+            <generatedKey column="id" sqlStatement="Mysql"/>
+            <!-- Mysql -->
+        </table>
+    </context>
+</generatorConfiguration>

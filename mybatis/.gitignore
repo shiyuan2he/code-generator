@@ -6,6 +6,7 @@ target
 */*/target
 
 # Compiled class file
+
 *.class
 
 # Log file
