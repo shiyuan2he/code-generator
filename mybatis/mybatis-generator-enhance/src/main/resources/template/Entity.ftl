@@ -1,15 +1,14 @@
 package ${packageStr};
 import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
 ${importStr}
 
 /**
- * 
  * ${entityDesc}实体
- * 
- * @version 
  * <pre>
- *  Author ${author}
- *  Date  ${time}
+ *  @author ${author}
+ *  @date  ${time}
  * </pre>
  */
 @Data

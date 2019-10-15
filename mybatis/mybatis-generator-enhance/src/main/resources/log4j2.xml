@@ -49,7 +49,7 @@
     </appenders>
     <loggers>
         <!-- 应用程序系统日志 -->
-        <logger name="com.hsy.mybatis.generator.framework.Application" level="trace">
+        <logger name="me.hsy.mybatis.generator.enhance.framework.Application" level="trace">
             
         </logger>
         <!--建立一个默认的root的logger-->

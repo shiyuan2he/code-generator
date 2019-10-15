@@ -57,7 +57,6 @@
     update ${tableName}
     set UPDATED = <#noparse>#{updated,jdbcType=TIMESTAMP}</#noparse>,
       UPDATEDBY = <#noparse>#{updatedby,jdbcType=VARCHAR}</#noparse>,
-      IS_DELETE = 'Y'
     where ID = <#noparse>#{id,jdbcType=BIGINT}</#noparse>
   </update>
   
@@ -67,20 +66,12 @@
         update ${tableName}
         set UPDATED = <#noparse>#{item.updated,jdbcType=TIMESTAMP}</#noparse>,
         UPDATEDBY = <#noparse>#{item.updatedby,jdbcType=VARCHAR}</#noparse>,
-        IS_DELETE = 'Y'
         where ID = <#noparse>#{item.id,jdbcType=BIGINT}</#noparse>
     </foreach> 
   </update>
   
   <!-- 查询所有 -->
-  <select id="findList" resultMap="BaseResultMap" parameterType="com.winit.common.query.Searchable">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM ${tableName} 
-  </select>
-  
-  <!-- 分页查询 -->
-  <select id="findPage" resultMap="BaseResultMap" parameterType="com.winit.common.query.Searchable">
+  <select id="findList" resultMap="BaseResultMap" parameterType="${entityType}">
     SELECT
     <include refid="Base_Column_List" />
     FROM ${tableName} 
@@ -91,9 +82,9 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM ${tableName} 
-    WHERE IS_DELETE = 'N'
+    WHERE
     <if test="id != null">
-      AND id = <#noparse>#{id, jdbcType=BIGINT}</#noparse>
+      id = <#noparse>#{id, jdbcType=BIGINT}</#noparse>
     </if>
   </select>
 </mapper>

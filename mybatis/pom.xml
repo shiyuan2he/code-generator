@@ -8,7 +8,7 @@
         <artifactId>code-generator</artifactId>
         <version>1.0</version>
     </parent>
-    <groupId>com.hsy.mybatis</groupId>
+    <groupId>me.hsy.mybatis</groupId>
     <artifactId>mybatis</artifactId>
     <packaging>pom</packaging>
     <modules>

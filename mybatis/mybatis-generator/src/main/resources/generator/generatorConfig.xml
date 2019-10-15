@@ -44,7 +44,7 @@
                         password="zhifou@1$SE23">
             <property name="useInformationSchema" value="true"/>
         </jdbcConnection>-->
-        <javaTypeResolver type="com.hsy.mybatis.generator.MyJavaTypeResolver">
+        <javaTypeResolver type="me.hsy.mybatis.generator.MyJavaTypeResolver">
             <!--<property name="forceBigDecimals" value="false"/>-->
         </javaTypeResolver>
 

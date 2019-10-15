@@ -1,26 +1,18 @@
 package ${packageStr};
-
-import java.io.Serializable;
 import java.util.List;
-
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import com.winit.common.orm.mybatis.MyBatisPageRepo;
-import com.winit.common.orm.mybatis.MyBatisRepo;
-import com.winit.common.orm.mybatis.PageBase;
-import com.winit.common.query.Searchable;
 ${importStr}
 
 /**
  * ${entityDesc}Dao
- * @version
  * <pre>
- *  Author ${author}
- *  Date  ${time}
+ *  @author ${author}
+ *  @date  ${time}
  * </pre>
  */
-@MyBatisRepo
-public interface ${className} extends MyBatisPageRepo<${entityClassName}, Serializable> {
+@Mapper
+public interface ${className}{
 
     long insert${entityName}(${entityClassName} entity);
     
@@ -34,11 +26,7 @@ public interface ${className} extends MyBatisPageRepo<${entityClassName}, Serial
     
     long deleteBatch(@Param("list")List<${entityClassName}> list);
     
-    PageBase<${entityClassName}> findPage(Searchable<${entityClassName}> searchable);
-    
-    List<${entityClassName}> findList(Searchable<${entityClassName}> searchable);
+    List<${entityClassName}> findList(${entityClassName} entity);
     
     ${entityClassName} get${entityName}(${entityClassName} entity);
-
-    ${entityClassName} get${entityName}ById(Long id);
 }
