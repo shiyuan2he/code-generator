@@ -43,7 +43,7 @@ public class EntityInfo {
     /**
      * 需要导入的包
      */
-    private Set<String> imports = new HashSet<String>();
+    private Set<String> imports = new HashSet<>();
     /**
      * 属性名以及对应的类型
      */

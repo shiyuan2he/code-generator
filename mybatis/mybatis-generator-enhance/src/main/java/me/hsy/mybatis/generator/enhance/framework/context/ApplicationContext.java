@@ -40,4 +40,5 @@ public class ApplicationContext {
      */
     private List<VoInfo> voList;
     private List<MapperInfo> mapperInfoList;
+    private List<DtoInfo> dtoInfoList;
 }

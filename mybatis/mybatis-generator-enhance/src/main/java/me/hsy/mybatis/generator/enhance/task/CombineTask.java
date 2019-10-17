@@ -12,12 +12,10 @@ import java.util.Set;
 import me.hsy.mybatis.generator.enhance.common.Constants;
 import me.hsy.mybatis.generator.enhance.framework.AbstractApplicationTask;
 import me.hsy.mybatis.generator.enhance.framework.context.ApplicationContext;
+import me.hsy.mybatis.generator.enhance.model.*;
 import me.hsy.mybatis.generator.enhance.util.PropertyUtil;
 import me.hsy.mybatis.generator.enhance.util.StringUtil;
-import me.hsy.mybatis.generator.enhance.model.TableInfo;
 import me.hsy.mybatis.generator.enhance.config.Configuration;
-import me.hsy.mybatis.generator.enhance.model.ColumnInfo;
-import me.hsy.mybatis.generator.enhance.model.EntityInfo;
 
 /**
  * 组合任务
@@ -32,6 +30,8 @@ public class CombineTask extends AbstractApplicationTask {
         
         //获取实体相关的配置
         String packageName = Configuration.getString("entity.package");
+        String packageNameVo = Configuration.getString("vo.package");
+        String packageNameDto = Configuration.getString("dto.package");
         logger.info("所有实体的包名为{}", packageName);
         
         //获取表和实体的映射集合
@@ -40,8 +40,12 @@ public class CombineTask extends AbstractApplicationTask {
         Map<String, TableInfo> tableInfoMap = context.getTableInfoMap();
         
         List<EntityInfo> entityInfoList = new ArrayList<>();
+        List<VoInfo> voInfoList = new ArrayList<>();
+        List<DtoInfo> dtoInfoList = new ArrayList<>();
         for (Entry<String, String> entry : table2Entities.entrySet()) {
             EntityInfo entityInfo = new EntityInfo();
+            VoInfo voInfo = new VoInfo();
+            DtoInfo dtoInfo = new DtoInfo();
             //表名
             String tableName = entry.getKey();
             //实体名
@@ -59,7 +63,12 @@ public class CombineTask extends AbstractApplicationTask {
             entityInfo.setEntityDesc(entity2Desc.get(entityName));
             entityInfo.setClassName(entityName + Constants.ENTITY_SUFFIX);
             entityInfo.setEntityPackage(packageName);
-          
+
+            voInfo.setClassName(entityName + Constants.VO_SUFFIX);
+            voInfo.setPackageStr(packageNameVo);
+
+            dtoInfo.setClassName(entityName + Constants.DTO_SUFFIX);
+            dtoInfo.setPackageStr(packageNameDto);
             //遍历表字段信息
             List<ColumnInfo> columns = tableInfo.getColumnList();
             for (ColumnInfo columnInfo : columns) {
@@ -92,8 +101,14 @@ public class CombineTask extends AbstractApplicationTask {
             entityInfo.setImports(imports);
             entityInfo.setPackageClassName(entityInfo.getEntityPackage() + "." + entityInfo.getClassName());
             entityInfoList.add(entityInfo);
+            voInfo.setEntityInfo(entityInfo);
+            voInfoList.add(voInfo);
+            dtoInfo.setEntityInfo(entityInfo);
+            dtoInfoList.add(dtoInfo);
         }
         context.setEntityInfoList(entityInfoList);
+        context.setVoList(voInfoList);
+        context.setDtoInfoList(dtoInfoList);
         return false;
     }
 }

@@ -11,6 +11,7 @@ public class Constants {
     public static final String MAPPER_XML_SUFFIX = "Mapper";
 
     public static final String VO_SUFFIX = "Vo";
+    public static final String DTO_SUFFIX = "Dto";
 
     public static final String MANAGER_SUFFIX = "Manager";
 
@@ -25,5 +26,14 @@ public class Constants {
     public static final String CONFIG_FILE_NAME = "configuration.xml";
 
     public static final String PREFIX_JDBC = "jdbc";
+
+
+    private static final String TIMESTAMP = "Timestamp";
+
+    private static final String BIGDECIMAL = "BigDecimal";
+
+    private static final String PK = "PRI";
+
+    private static final String EXTRA = "auto_increment";
 }
 

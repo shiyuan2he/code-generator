@@ -6,7 +6,7 @@ import lombok.Data;
  * @author heshiyuan
  */
 @Data
-public class VoInfo {
+public class DtoInfo {
     /**
      * 包路径
      */

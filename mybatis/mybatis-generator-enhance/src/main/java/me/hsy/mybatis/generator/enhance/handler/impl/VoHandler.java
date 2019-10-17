@@ -8,57 +8,38 @@ import me.hsy.mybatis.generator.enhance.handler.BaseHandler;
 import me.hsy.mybatis.generator.enhance.config.Configuration;
 import me.hsy.mybatis.generator.enhance.model.EntityInfo;
 import me.hsy.mybatis.generator.enhance.model.VoInfo;
+import me.hsy.mybatis.generator.enhance.util.StringHelper;
 
+/**
+ * @author heshiyuan
+ */
 public class VoHandler extends BaseHandler<VoInfo> {
-    
-    
     public VoHandler(String ftlName, VoInfo info){
         this.ftlName = ftlName;
         this.info = info;
         this.savePath = Configuration.getString("base.baseDir")
-                + File.separator + Configuration.getString("vo.path")
+                + File.separator + mavenPath
+                + File.separator + StringHelper.join(File.separator, Configuration.getString("vo.package").split("\\."))
                 + File.separator + info.getClassName() + ".java";
     }
 
     @Override
-    public void combineParams(VoInfo info) {
-        EntityInfo entityInfo = info.getEntityInfo();
-        this.param.put("packageStr", info.getPackageStr());
+    public void combineParams(VoInfo voInfo) {
+        this.param.put("packageStr", voInfo.getPackageStr());
+        this.param.put("entityDesc", voInfo.getEntityInfo().getEntityDesc());
+        this.param.put("className", voInfo.getClassName());
+
         StringBuilder sb = new StringBuilder();
-        for (String str : entityInfo.getImports()) {
-            sb.append("import ").append(str).append(";\r\n");
-        }
-        this.param.put("importStr", sb.toString());
-        this.param.put("entityDesc", entityInfo.getEntityDesc());
-        this.param.put("className", info.getClassName());
-        
         //生成属性，getter,setter方法
-        sb = new StringBuilder();
-        StringBuilder sbMethods = new StringBuilder();
-        Map<String, String> propRemarks = entityInfo.getPropRemarks();
-        for (Entry<String, String> entry : entityInfo.getPropTypes().entrySet()) {
+        Map<String, String> propRemarks = voInfo.getEntityInfo().getPropRemarks();
+        for (Entry<String, String> entry : voInfo.getEntityInfo().getPropTypes().entrySet()) {
             String propName = entry.getKey();
             String propType = entry.getValue();
-            
             //注释、类型、名称
-            sb.append("    /*").append(propRemarks.get(propName)).append("*/\r\n")
-            .append("    private ").append(propType).append(" ").append(propName)
-            .append(";\r\n");
-            
-            sbMethods.append("    public ").append(propType).append(" get")
-            .append(propName.substring(0, 1).toUpperCase())
-            .append(propName.substring(1)).append("() {\r\n")
-            .append("        return ").append(propName).append(";\r\n")
-            .append("    }\r\n")
-            .append("    public void set").append(propName.substring(0, 1).toUpperCase())
-            .append(propName.substring(1)).append("(").append(propType).append(" ")
-            .append(propName).append(") {\r\n")
-            .append("        this.").append(propName).append(" = ").append(propName)
-            .append(";\r\n    }\r\n").append("\r\n");
+            sb.append("\r\n\t/**\r\n\t * ").append(propRemarks.get(propName)).append("\r\n\t */\r\n")
+                    .append("\tprivate ").append(propType).append(" ").append(propName)
+                    .append(";\r\n");
         }
-        
         this.param.put("propertiesStr", sb.toString());
-        this.param.put("methodStr", sbMethods.toString());
     }
-
 }

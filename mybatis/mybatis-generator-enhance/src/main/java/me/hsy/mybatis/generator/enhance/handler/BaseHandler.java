@@ -22,7 +22,7 @@ public abstract class BaseHandler<T> {
                                 File.separator + "resources";
     protected String ftlName;
     protected String savePath;
-    protected Map<String, String> param = new HashMap<>();
+    protected Map<String, Object> param = new HashMap<>();
     protected T info;
     
     private String generateFinalStr() {

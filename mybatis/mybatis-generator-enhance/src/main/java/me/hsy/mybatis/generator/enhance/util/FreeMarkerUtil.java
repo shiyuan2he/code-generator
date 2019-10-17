@@ -8,6 +8,9 @@ import java.util.Map;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
+/**
+ * @author heshiyuan
+ */
 public class FreeMarkerUtil {
     public static Configuration configuration;
 
@@ -21,11 +24,11 @@ public class FreeMarkerUtil {
     /**
      * 
      * 获取解析后的值.
-     * @param parms
+     * @param param
      * @param temp
      * @return
      */
-    public static String getProcessValue(Map<String, String> param, String temp) {
+    public static String getProcessValue(Map<String, Object> param, String temp) {
         try {
             Template template = new Template("", new StringReader("<#escape x as (x)!>" + temp + "</#escape>"),
                     configuration);

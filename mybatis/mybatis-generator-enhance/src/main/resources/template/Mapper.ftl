@@ -87,4 +87,9 @@
       id = <#noparse>#{id, jdbcType=BIGINT}</#noparse>
     </if>
   </select>
+
+    <!-- (通用)根据实体名称和字段名称和字段值获取唯一记录 -->
+    <select id="queryUniqueByProperty" resultMap="baseUserResultMap" statementType="STATEMENT">
+        SELECT <include refid="baseUserColumnList" /> FROM base_user  WHERE ${propertyName} = '${value}'
+    </select>
 </mapper>
