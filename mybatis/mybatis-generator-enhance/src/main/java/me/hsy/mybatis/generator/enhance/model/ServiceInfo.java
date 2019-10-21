@@ -1,57 +1,41 @@
 package me.hsy.mybatis.generator.enhance.model;
 
+import lombok.Data;
+import lombok.ToString;
 
+import java.util.List;
+
+/**
+ * @author heshiyuan
+ */
+@Data
+@ToString
 public class ServiceInfo {
-
-    //包路径
+    /**
+     * 包路径
+     */
     private String packageStr;
-    
-    //需要导入的包
-    private String importStr;
-    
-    //类名
+    /**
+     * 需要导入的包
+     */
+    private List<String> importStrList;
+    /**
+     * 类名
+     */
     private String className;
-    
-    //实体信息
-    private EntityInfo entityInfo;
-
-    
-    public String getPackageStr() {
-        return packageStr;
-    }
-
-    
-    public void setPackageStr(String packageStr) {
-        this.packageStr = packageStr;
-    }
-
-    
-    public String getImportStr() {
-        return importStr;
-    }
-
-    
-    public void setImportStr(String importStr) {
-        this.importStr = importStr;
-    }
-
-    
-    public String getClassName() {
-        return className;
-    }
-
-    
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    
-    public EntityInfo getEntityInfo() {
-        return entityInfo;
-    }
-
-    
-    public void setEntityInfo(EntityInfo entityInfo) {
-        this.entityInfo = entityInfo;
-    }
+    /**
+     * 业务描述
+     */
+    private String serviceDesc;
+    /**
+     * 主键数据类型
+     */
+    private String pkColumnType;
+    /**
+     * 主键字段名
+     */
+    private String pkPropName;
+    private VoInfo voInfo;
+    private DtoInfo dtoInfo;
+    private TableInfo tableInfo;
 }

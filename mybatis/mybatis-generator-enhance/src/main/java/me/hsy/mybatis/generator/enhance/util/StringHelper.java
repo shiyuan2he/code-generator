@@ -1400,5 +1400,53 @@ public class StringHelper {
         logger.info("【下划线转驼峰】转化后的字符串:{}",str);
         return str;
     }
+    /**
+     * 首字母转小写
+     * @param s
+     * @return
+     */
+    public static String toLowerCaseFirstOne(String s) {
+        if (null==s || "".equals(s)) {
+            return s;
+        }
+        if (Character.isLowerCase(s.charAt(0))) {
+            return s;
+        } else {
+            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
+    }
+
+    /**
+     * 首字母转大写
+     * @param s
+     * @return
+     */
+    public static String toUpperCaseFirstOne(String s) {
+        if (null==s || "".equals(s)) {
+            return s;
+        }
+        if (Character.isUpperCase(s.charAt(0))) {
+            return s;
+        } else {
+            return (new StringBuffer()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
+    }
+    /**
+     * @description <p>功能：将输入字符串的首字母改成大写</p>
+     * @param str 待转入的字符串
+     * @return String 首字母大写的字符串
+     * @author heshiyuan
+     * @date 20/10/2017 9:19 AM
+     * @email shiyuan4work@sina.com
+     * @github https://github.com/shiyuan2he.git
+     * Copyright (c) 2016 shiyuan4work@sina.com All rights reserved
+     */
+    public static String initCap(String str) {
+        char[] ch = str.toCharArray();
+        if(ch[0] >= 'a' && ch[0] <= 'z'){
+            ch[0] = (char)(ch[0] - 32);
+        }
+        return new String(ch);
+    }
 }
 

@@ -14,17 +14,17 @@ ${importStr}
 @Mapper
 public interface ${className}{
 
-    long insert${entityName}(${entityClassName} entity);
+    Integer insert${entityName}(${entityClassName} entity);
     
-    Long insertBatch(@Param("list")List<${entityClassName}> list);
+    Integer insertBatch(@Param("list")List<${entityClassName}> list);
     
-    long update${entityName}(${entityClassName} entity);
+    Integer update${entityName}(${entityClassName} entity);
     
-    long updateBatch(@Param("list")List<${entityClassName}> list);
+    Integer updateBatch(@Param("list")List<${entityClassName}> list);
     
-    long delete${entityName}(${entityClassName} entity);
+    Integer delete${entityName}(${entityClassName} entity);
     
-    long deleteBatch(@Param("list")List<${entityClassName}> list);
+    Integer deleteBatch(@Param("list")List<${entityClassName}> list);
     
     List<${entityClassName}> findList(${entityClassName} entity);
     

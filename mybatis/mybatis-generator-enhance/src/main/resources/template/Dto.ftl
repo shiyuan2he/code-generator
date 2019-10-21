@@ -28,4 +28,10 @@ public class ${className} implements Serializable {
     private ${column.propType} ${column.propName};
 </#list>
 </#if>
+
+    public static ${className} convert(${entityClassName} ${entityClassNameToHump}){
+        ${className} dto = new ${className};
+        BeanUtils.copyProperties(${entityClassNameToHump}, dto);
+        return dto;
+    }
 }

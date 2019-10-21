@@ -1,0 +1,45 @@
+package me.hsy.mybatis.generator.enhance.handler.impl;
+
+import me.hsy.mybatis.generator.enhance.config.Configuration;
+import me.hsy.mybatis.generator.enhance.handler.BaseHandler;
+import me.hsy.mybatis.generator.enhance.model.DtoInfo;
+import me.hsy.mybatis.generator.enhance.model.ServiceInfo;
+import me.hsy.mybatis.generator.enhance.util.StringHelper;
+
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
+
+/**
+ * @author heshiyuan
+ */
+public class ServiceInfoHandle extends BaseHandler<ServiceInfo> {
+    public ServiceInfoHandle(String ftlName, ServiceInfo info){
+        this.ftlName = ftlName;
+        this.info = info;
+        this.savePath = Configuration.getString("base.baseDir")
+                + File.separator + mavenPath
+                + File.separator + StringHelper.join(File.separator, Configuration.getString("service.package").split("\\."))
+                + File.separator + info.getClassName() + ".java";
+    }
+
+    @Override
+    public void combineParams(ServiceInfo serviceInfo) {
+        this.param.put("packageStr", serviceInfo.getPackageStr());
+        this.param.put("className", serviceInfo.getClassName());
+        StringBuilder sb = new StringBuilder();
+        for (String str : Optional.ofNullable(serviceInfo.getImportStrList()).orElse(new ArrayList<>())) {
+            sb.append("import ").append(str).append(";\r\n");
+        }
+        this.param.put("importStr", sb.toString());
+        this.param.put("dtoName", serviceInfo.getDtoInfo().getClassName());
+        this.param.put("pkPropName", serviceInfo.getTableInfo().getPkInfo().getJavaColumnField());
+        this.param.put("pkColumnType", serviceInfo.getTableInfo().getPkInfo().getJavaColumnType());
+        this.param.put("pkComment", serviceInfo.getTableInfo().getPkInfo().getColumnComment());
+        this.param.put("pkPropNameList", serviceInfo.getTableInfo().getPkInfo().getJavaColumnField() + "List");
+        this.param.put("voClassName", serviceInfo.getVoInfo().getClassName());
+        String voClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceInfo.getVoInfo().getClassName());
+        this.param.put("voClassNameToHump", voClassNameToHump);
+        this.param.put("voClassNameToHumpList", voClassNameToHump + "List");
+    }
+}

@@ -13,4 +13,5 @@ public class TableInfo {
     private String type;
     private String remark;
     private List<ColumnInfo> columnList;
+    private PKInfo pkInfo;
 }

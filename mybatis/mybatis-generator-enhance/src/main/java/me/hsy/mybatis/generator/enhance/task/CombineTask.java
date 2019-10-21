@@ -27,11 +27,12 @@ public class CombineTask extends AbstractApplicationTask {
     @Override
     protected boolean doInternal(ApplicationContext context) {
         logger.info("组装信息");
-        
+
         //获取实体相关的配置
         String packageName = Configuration.getString("entity.package");
         String packageNameVo = Configuration.getString("vo.package");
         String packageNameDto = Configuration.getString("dto.package");
+
         logger.info("所有实体的包名为{}", packageName);
         
         //获取表和实体的映射集合
@@ -42,6 +43,7 @@ public class CombineTask extends AbstractApplicationTask {
         List<EntityInfo> entityInfoList = new ArrayList<>();
         List<VoInfo> voInfoList = new ArrayList<>();
         List<DtoInfo> dtoInfoList = new ArrayList<>();
+        List<ServiceInfo> serviceInfoList = new ArrayList<>();
         for (Entry<String, String> entry : table2Entities.entrySet()) {
             EntityInfo entityInfo = new EntityInfo();
             VoInfo voInfo = new VoInfo();
@@ -74,11 +76,16 @@ public class CombineTask extends AbstractApplicationTask {
             for (ColumnInfo columnInfo : columns) {
                 String fieldName = columnInfo.getName();
                 String fieldType = columnInfo.getType();
-                
+
                 //通过字段名生成属性名
                 String propName = StringUtil.convertFieldName2PropName(fieldName);
                 String propType = PropertyUtil.getValueByKey(fieldType);
-                
+                if(fieldName.equals(tableInfo.getPkInfo().getColumnName())){
+                    tableInfo.getPkInfo().setJavaColumnType(propType);
+                    tableInfo.getPkInfo().setJavaColumnField(propName);
+                    tableInfo.getPkInfo().setColumnComment(columnInfo.getRemark());
+                }
+
                 propTypes.put(propName, propType);
                 propRemarks.put(propName, columnInfo.getRemark());
                 propJdbcTypes.put(propName, PropertyUtil.getValueByKey("_" + propType));
@@ -105,10 +112,28 @@ public class CombineTask extends AbstractApplicationTask {
             voInfoList.add(voInfo);
             dtoInfo.setEntityInfo(entityInfo);
             dtoInfoList.add(dtoInfo);
+            serviceInfoList.add(generateServiceInfo(entry, entityInfo, voInfo, dtoInfo, tableInfo));
         }
         context.setEntityInfoList(entityInfoList);
         context.setVoList(voInfoList);
         context.setDtoInfoList(dtoInfoList);
+        context.setServiceInfoList(serviceInfoList);
         return false;
+    }
+
+    private ServiceInfo generateServiceInfo(Entry<String, String> entry, EntityInfo entityInfo, VoInfo voInfo, DtoInfo dtoInfo, TableInfo tableInfo) {
+        String packageNameService = Configuration.getString("service.package");
+        ServiceInfo serviceInfo = new ServiceInfo();
+        serviceInfo.setPackageStr(packageNameService);
+        serviceInfo.setClassName("I" + entry.getValue() + Constants.SERVICE_SUFFIX);
+        serviceInfo.setServiceDesc(entityInfo.getEntityDesc());
+        List<String> importStrList = new ArrayList<>();
+        importStrList.add(voInfo.getPackageStr() + "." + voInfo.getClassName());
+        importStrList.add(dtoInfo.getPackageStr() + "." + dtoInfo.getClassName());
+        serviceInfo.setImportStrList(importStrList);
+        serviceInfo.setVoInfo(voInfo);
+        serviceInfo.setDtoInfo(dtoInfo);
+        serviceInfo.setTableInfo(tableInfo);
+        return serviceInfo;
     }
 }

@@ -1,101 +1,114 @@
-package ${package}.service.impl;
-
-import ${package}.domain.${className};
-<#if columns??>
-    <#list columns as column>
-        <#if column.columnKey = 'UNI'>
-            <#if column_index = 1>
-import me.zhengjie.exception.EntityExistException;
-            </#if>
-        </#if>
-    </#list>
-</#if>
-import me.zhengjie.utils.ValidationUtil;
-import ${package}.repository.${className}Repository;
-import ${package}.service.${className}Service;
-import ${package}.service.dto.${className}DTO;
-import ${package}.service.mapper.${className}Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Optional;
-<#if !auto && pkColumnType = 'Long'>
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
-</#if>
-<#if !auto && pkColumnType = 'String'>
-import cn.hutool.core.util.IdUtil;
-</#if>
+package ${packageStr};
+import java.util.List;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+${importStr}
 
 /**
-* @author ${author}
-* @date ${date}
-*/
+ * ${serviceDesc} 业务实现类
+ * @author ${author}
+ * @date ${time}
+ */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class ${className}ServiceImpl implements ${className}Service {
+public class ${className} implements ${serviceClassName} {
 
     @Autowired
-    private ${className}Mapper ${changeClassName}Mapper;
+    private ${entityClassName}Mapper ${entityClassNameToHump}Mapper;
 
-    @Override
-    public ${className}DTO findById(${pkColumnType} ${pkChangeColName}) {
-        Optional<${className}> ${changeClassName} = ${changeClassName}Mapper.findById(${pkChangeColName});
-        ValidationUtil.isNull(${changeClassName},"${className}","${pkChangeColName}",${pkChangeColName});
-        return ${changeClassName}Mapper.toDto(${changeClassName}.get());
+    /**
+     * findById
+     * @param ${pkPropName} ${pkComment}
+     * @return ${dtoName} 实体转换对象
+     */
+    ${dtoName} findById(${pkColumnType} ${pkPropName}){
+        return ${dtoName}.convert(${entityClassNameToHump}Mapper.findById(${pkPropName}));
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ${className}DTO create(${className} resources) {
-<#if !auto && pkColumnType = 'Long'>
-        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        resources.set${pkCapitalColName}(snowflake.nextId()); 
-</#if>
-<#if !auto && pkColumnType = 'String'>
-        resources.set${pkCapitalColName}(IdUtil.simpleUUID()); 
-</#if>
-<#if columns??>
-    <#list columns as column>
-    <#if column.columnKey = 'UNI'>
-        if(${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}()) != null){
-            throw new EntityExistException(${className}.class,"${column.columnName}",resources.get${column.capitalColumnName}());
+    /**
+     * findByParam
+     * @param ${voClassNameToHump} ${serviceDesc}请求对象
+     * @return ${dtoName} 实体转换对象
+     */
+    List<${dtoName}> findByParam(${voClassName} ${voClassNameToHump}){
+        List<${dtoName}> list = Optional.ofNullable(
+                ${entityClassNameToHump}Mapper.findList(${entityClassName}.convert(${voClassNameToHump})))
+                .orElse(new ArrayList<>());
+        return list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList());
+    }
+
+    /**
+     * findPageListByParam
+     * @param ${voClassNameToHump} ${serviceDesc}请求对象
+     * @return ${dtoName} 实体转换对象
+     */
+    PageInfo<List<${dtoName}>> findPageListByParam(Integer page, Integer limit, String sort, ${voClassName} ${voClassNameToHump}){
+        PageHelper.startPage(page, limit, sort);
+        List<${dtoName}> list = Optional.ofNullable(
+                ${entityClassNameToHump}Mapper.findList(${entityClassName}.convert(${voClassNameToHump})))
+                .orElse(new ArrayList<>());
+        return new PageInfo(list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList()));
+    }
+
+    /**
+     * create 单体创建
+     * @param ${voClassNameToHump} ${serviceDesc}请求对象
+     * @return Boolean 创建成功标识 true：成功 false：失败
+     */
+    Boolean create(${voClassName} ${voClassNameToHump}){
+        if(1 == ${entityClassNameToHump}Mapper.insert${entityClassName}(${entityClassName}.convert(${voClassNameToHump}))){
+            return true;
         }
-    </#if>
-    </#list>
-</#if>
-        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.save(resources));
+        return false;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(${className} resources) {
-        Optional<${className}> optional${className} = ${changeClassName}Repository.findById(resources.get${pkCapitalColName}());
-        ValidationUtil.isNull( optional${className},"${className}","id",resources.get${pkCapitalColName}());
+    /**
+     * create 批量创建
+     * @param ${voClassNameToHumpList} ${serviceDesc}请求对象
+     * @return ${dtoName} 实体转换对象
+     */
+    Integer create(List<${voClassName}> ${voClassNameToHumpList}){
+        return ${entityClassNameToHump}Mapper.insertBatch(
+               ${voClassNameToHumpList}.stream.map(entity ->
+                    ${dtoName}.convert(entity)).collect(Collectors.toList())
+        ;
+    }
 
-        ${className} ${changeClassName} = optional${className}.get();
-<#if columns??>
-    <#list columns as column>
-        <#if column.columnKey = 'UNI'>
-        <#if column_index = 1>
-        ${className} ${changeClassName}1 = null;
-        </#if>
-        ${changeClassName}1 = ${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}());
-        if(${changeClassName}1 != null && !${changeClassName}1.get${pkCapitalColName}().equals(${changeClassName}.get${pkCapitalColName}())){
-            throw new EntityExistException(${className}.class,"${column.columnName}",resources.get${column.capitalColumnName}());
+    /**
+     * update 单体更新
+     * @param ${voClassNameToHump} ${serviceDesc}请求对象
+     * @return Boolean true:更新成功， false：更新失败
+     */
+    Boolean update(${voClassName} ${voClassNameToHump}){
+        if(1 == ${entityClassNameToHump}Mapper.update${entityClassName}(${entityClassName}.convert(${voClassNameToHump}))){
+            return true;
         }
-        </#if>
-    </#list>
-</#if>
-        // 此处需自己修改
-        resources.set${pkCapitalColName}(${changeClassName}.get${pkCapitalColName}());
-        ${changeClassName}Repository.save(resources);
+        return false;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(${pkColumnType} ${pkChangeColName}) {
-        ${changeClassName}Repository.deleteById(${pkChangeColName});
+    /**
+     * update 单体更新
+     * @param ${voClassNameToHumpList} 批量更新实体list
+     * @return Integer 批量更新的条数
+     */
+    Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
+        return ${entityClassNameToHump}Mapper.updateBatch(
+                ${voClassNameToHumpList}.stream.map(entity ->
+                ${dtoName}.convert(entity)).collect(Collectors.toList())
+        ;
     }
+
+    /**
+     * delete 单体删除
+     * @param ${pkPropName} ${pkComment}
+     * @return Boolean true:删除成功， false：删除失败
+     */
+     Boolean delete(${pkColumnType} ${pkPropName});
+
+    /**
+     * delete 批量删除
+     * @param ${pkPropNameList} ${pkComment}
+     * @return Integer 删除成功的条数
+     */
+    Integer delete(List<${pkColumnType}> ${pkPropNameList});
 }

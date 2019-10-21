@@ -18,7 +18,8 @@ public class GeneratorApplication {
 //                .addTask(DaoTask.class)
 //                .addTask(MapperTask.class)
 //                .addTask(VoTask.class)
-                .addTask(DtoTask.class)
+//                .addTask(DtoTask.class)
+                .addTask(ServiceTask.class)
         ;
         application.work();
     }
