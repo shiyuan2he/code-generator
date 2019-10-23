@@ -30,6 +30,8 @@ public interface ${className}{
     
     ${entityClassName} get${entityName}(${entityClassName} entity);
 
-    // 通用单条记录查询  根据实体名称和字段名称和字段值获取唯一记录
+    /**
+     * 通用单条记录查询  根据实体名称和字段名称和字段值获取唯一记录
+     */
     ${entityClassName} queryUniqueByProperty(@Param("propertyName") String propertyName, @Param("value") Object value);
 }

@@ -5,9 +5,9 @@ import me.hsy.mybatis.generator.enhance.framework.ApplicationTask;
 import java.util.LinkedList;
 
 /**
- * Created by Lewis on 2018/3/20
+ * 生成任务队列
+ * @author heshiyuan
  */
-
 public class TaskFactory {
 
     public static LinkedList<ApplicationTask> taskList = new LinkedList<>();
@@ -15,7 +15,6 @@ public class TaskFactory {
     public static synchronized ApplicationTask consume() {
         return taskList.remove();
     }
-
     public static void provide(ApplicationTask task) {
         taskList.add(task);
     }

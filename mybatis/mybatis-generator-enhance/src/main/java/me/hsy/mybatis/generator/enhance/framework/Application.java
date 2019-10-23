@@ -52,17 +52,19 @@ public class Application {
             return;
         }
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>(10);
         if (flag == 0) {
             //执行前回调
             map.put("id", Long.valueOf(taskHistoryId));
             map.put("execStartTime", new Date());
-            map.put("runStatus", 1);  //运行中
+            // 运行中
+            map.put("runStatus", 1);
         } else {
             //执行后回调
             map.put("id", Long.valueOf(taskHistoryId));
             map.put("execEndTime", new Date());
-            map.put("runStatus", 2);  //运行完毕
+            // 运行完毕
+            map.put("runStatus", 2);
         }
 
         int tryTimes = 0;
@@ -106,23 +108,17 @@ public class Application {
                 }
             }
         }
-
     }
 
 
     private void workWithoutCallback() {
-
         if (TaskFactory.haveNoTasks()) {
             logger.error("无法启动应用程序，由于应用程序中没有任务！");
             return;
         }
         Date startTime = new Date();
         logger.info("应用程序{}执行开始时间：{}", this.applicationName, startTime);
-
-
         execute();//任务执行
-
-
         Date endTime = new Date();
         logger.info("应用程序{}执行结束时间：{}", this.applicationName, endTime);
         long executeTime = DateUtil.calExecuteSecondTime(startTime, endTime);
@@ -147,7 +143,7 @@ public class Application {
 
     public Application addTask(Class<? extends ApplicationTask> taskClass) {
         ApplicationTask task = ClassUtils.newInstance(taskClass.getName(), ApplicationTask.class);
-        if (task == null) return this;
+        if (task == null) {return this;}
         //初始化任务类的日志
         task.initLogger(taskClass.getSimpleName(), this.applicationId);
         this.logger.info("添加新的应用程序任务{}", taskClass.getSimpleName());
@@ -166,6 +162,5 @@ public class Application {
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
     }
-
 }
 

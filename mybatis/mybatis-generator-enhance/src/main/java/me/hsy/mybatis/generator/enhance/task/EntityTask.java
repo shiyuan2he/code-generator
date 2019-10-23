@@ -1,6 +1,6 @@
 package me.hsy.mybatis.generator.enhance.task;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import me.hsy.mybatis.generator.enhance.common.Constants;
 import me.hsy.mybatis.generator.enhance.framework.AbstractApplicationTask;
@@ -10,8 +10,6 @@ import me.hsy.mybatis.generator.enhance.framework.context.ApplicationContext;
 import me.hsy.mybatis.generator.enhance.handler.BaseHandler;
 import me.hsy.mybatis.generator.enhance.handler.impl.EntityHandler;
 import me.hsy.mybatis.generator.enhance.model.EntityInfo;
-import me.hsy.mybatis.generator.enhance.model.VoInfo;
-
 /**
  * @author heshiyuan
  */
@@ -38,27 +36,14 @@ public class EntityTask extends AbstractApplicationTask {
     @Override
     protected void doAfter(ApplicationContext context) throws Exception {
         super.doAfter(context);
-        
-        List<DaoInfo> daoList = new ArrayList<>();
-        List<VoInfo> voList = new ArrayList<>();
         //组装Dao信息、组装Vo信息
-        DaoInfo daoInfo = null;
-        VoInfo voInfo = null;
-        for (EntityInfo entityInfo : entityInfoList) {
-            daoInfo = new DaoInfo();
-            daoInfo.setClassName(entityInfo.getEntityName() + Constants.DAO_SUFFIX);
-            daoInfo.setEntityInfo(entityInfo);
-            daoInfo.setImportStr("import " + entityInfo.getEntityPackage() + "." + entityInfo.getClassName() + ";");
+        context.setDaoList(entityInfoList.stream().map(entity -> {
+            DaoInfo daoInfo = new DaoInfo();
+            daoInfo.setClassName(entity.getEntityName() + Constants.DAO_SUFFIX);
+            daoInfo.setEntityInfo(entity);
+            daoInfo.setImportStr("import " + entity.getEntityPackage() + "." + entity.getClassName() + ";");
             daoInfo.setPackageStr(Configuration.getString("dao.package"));
-            daoList.add(daoInfo);
-            
-            voInfo = new VoInfo();
-            voInfo.setPackageStr(Configuration.getString("vo.package"));
-            voInfo.setClassName(entityInfo.getEntityName() + Constants.VO_SUFFIX);
-            voInfo.setEntityInfo(entityInfo);
-            voList.add(voInfo);
-        }
-        context.setDaoList(daoList);
-        context.setVoList(voList);
+            return daoInfo;
+        }).collect(Collectors.toList()));
     }
 }

@@ -1,7 +1,12 @@
 package ${packageStr};
 import java.util.List;
+import java.util.Optional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 ${importStr}
 
 /**
@@ -14,7 +19,7 @@ ${importStr}
 public class ${className} implements ${serviceClassName} {
 
     @Autowired
-    private ${entityClassName}Mapper ${entityClassNameToHump}Mapper;
+    private ${tableClassName}Dao ${tableNameToHump}Dao;
 
     /**
      * findById
@@ -22,7 +27,7 @@ public class ${className} implements ${serviceClassName} {
      * @return ${dtoName} 实体转换对象
      */
     ${dtoName} findById(${pkColumnType} ${pkPropName}){
-        return ${dtoName}.convert(${entityClassNameToHump}Mapper.findById(${pkPropName}));
+        return ${dtoName}.convert(${tableNameToHump}Dao.findById(${pkPropName}));
     }
 
     /**
@@ -32,7 +37,7 @@ public class ${className} implements ${serviceClassName} {
      */
     List<${dtoName}> findByParam(${voClassName} ${voClassNameToHump}){
         List<${dtoName}> list = Optional.ofNullable(
-                ${entityClassNameToHump}Mapper.findList(${entityClassName}.convert(${voClassNameToHump})))
+                ${tableNameToHump}Dao.findList(${tableClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
         return list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList());
     }
@@ -45,7 +50,7 @@ public class ${className} implements ${serviceClassName} {
     PageInfo<List<${dtoName}>> findPageListByParam(Integer page, Integer limit, String sort, ${voClassName} ${voClassNameToHump}){
         PageHelper.startPage(page, limit, sort);
         List<${dtoName}> list = Optional.ofNullable(
-                ${entityClassNameToHump}Mapper.findList(${entityClassName}.convert(${voClassNameToHump})))
+                ${tableNameToHump}Dao.findList(${tableClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
         return new PageInfo(list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList()));
     }
@@ -56,7 +61,7 @@ public class ${className} implements ${serviceClassName} {
      * @return Boolean 创建成功标识 true：成功 false：失败
      */
     Boolean create(${voClassName} ${voClassNameToHump}){
-        if(1 == ${entityClassNameToHump}Mapper.insert${entityClassName}(${entityClassName}.convert(${voClassNameToHump}))){
+        if(1 == ${tableNameToHump}Dao.insert${tableClassName}(${tableClassName}.convert(${voClassNameToHump}))){
             return true;
         }
         return false;
@@ -68,7 +73,7 @@ public class ${className} implements ${serviceClassName} {
      * @return ${dtoName} 实体转换对象
      */
     Integer create(List<${voClassName}> ${voClassNameToHumpList}){
-        return ${entityClassNameToHump}Mapper.insertBatch(
+        return ${tableNameToHump}Dao.insertBatch(
                ${voClassNameToHumpList}.stream.map(entity ->
                     ${dtoName}.convert(entity)).collect(Collectors.toList())
         ;
@@ -80,7 +85,7 @@ public class ${className} implements ${serviceClassName} {
      * @return Boolean true:更新成功， false：更新失败
      */
     Boolean update(${voClassName} ${voClassNameToHump}){
-        if(1 == ${entityClassNameToHump}Mapper.update${entityClassName}(${entityClassName}.convert(${voClassNameToHump}))){
+        if(1 == ${tableNameToHump}Dao.update${tableClassName}(${tableClassName}.convert(${voClassNameToHump}))){
             return true;
         }
         return false;
@@ -92,7 +97,7 @@ public class ${className} implements ${serviceClassName} {
      * @return Integer 批量更新的条数
      */
     Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
-        return ${entityClassNameToHump}Mapper.updateBatch(
+        return ${tableNameToHump}Dao.updateBatch(
                 ${voClassNameToHumpList}.stream.map(entity ->
                 ${dtoName}.convert(entity)).collect(Collectors.toList())
         ;
@@ -103,12 +108,22 @@ public class ${className} implements ${serviceClassName} {
      * @param ${pkPropName} ${pkComment}
      * @return Boolean true:删除成功， false：删除失败
      */
-     Boolean delete(${pkColumnType} ${pkPropName});
+    Boolean delete(${pkColumnType} ${pkPropName}){
+        if(1 == ${tableNameToHump}Dao.delete${tableClassName}(${pkPropName})){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * delete 批量删除
      * @param ${pkPropNameList} ${pkComment}
      * @return Integer 删除成功的条数
      */
-    Integer delete(List<${pkColumnType}> ${pkPropNameList});
+    Integer delete(List<${pkColumnType}> ${pkPropNameList}){
+        return ${tableNameToHump}Dao.deleteBatch(
+            ${voClassNameToHumpList}.stream.map(entity ->
+            ${dtoName}.convert(entity)).collect(Collectors.toList())
+        ;
+    }
 }

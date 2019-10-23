@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 /**
 * @author ${author}
-* @date ${date}
+* @date ${time}
 */
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class ${className}Controller {
 
     @Autowired

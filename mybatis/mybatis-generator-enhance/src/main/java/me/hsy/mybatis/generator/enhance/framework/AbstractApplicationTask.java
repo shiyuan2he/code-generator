@@ -5,6 +5,9 @@ import me.hsy.mybatis.generator.enhance.log.LogFactory;
 import me.hsy.mybatis.generator.enhance.util.PropertyUtil;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * @author heshiyuan
+ */
 public abstract class AbstractApplicationTask implements ApplicationTask {
 
     protected Logger logger;

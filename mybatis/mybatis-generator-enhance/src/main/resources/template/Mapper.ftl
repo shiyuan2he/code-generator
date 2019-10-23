@@ -53,22 +53,18 @@
   </update>
   
   <!-- 删除 -->
-  <update id="delete${entityName}" parameterType="${entityType}" >
-    update ${tableName}
-    set UPDATED = <#noparse>#{updated,jdbcType=TIMESTAMP}</#noparse>,
-      UPDATEDBY = <#noparse>#{updatedby,jdbcType=VARCHAR}</#noparse>,
+  <delete id="delete${entityName}" parameterType="${entityType}" >
+    delete ${tableName}
     where ID = <#noparse>#{id,jdbcType=BIGINT}</#noparse>
-  </update>
+  </delete>
   
   <!-- 批量删除 -->
-  <update id="deleteBatch" parameterType="java.util.List" >
-    <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
-        update ${tableName}
-        set UPDATED = <#noparse>#{item.updated,jdbcType=TIMESTAMP}</#noparse>,
-        UPDATEDBY = <#noparse>#{item.updatedby,jdbcType=VARCHAR}</#noparse>,
-        where ID = <#noparse>#{item.id,jdbcType=BIGINT}</#noparse>
+  <delete id="deleteBatch" parameterType="java.util.List" >
+      delete ${tableName} where ID in
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+        <#noparse>#{item.id,jdbcType=BIGINT}</#noparse>
     </foreach> 
-  </update>
+  </delete>
   
   <!-- 查询所有 -->
   <select id="findList" resultMap="BaseResultMap" parameterType="${entityType}">
@@ -89,7 +85,7 @@
   </select>
 
     <!-- (通用)根据实体名称和字段名称和字段值获取唯一记录 -->
-    <select id="queryUniqueByProperty" resultMap="baseUserResultMap" statementType="STATEMENT">
+    <select id="queryUniqueByProperty" resultMap="BaseResultMap" statementType="STATEMENT">
         SELECT <include refid="baseUserColumnList" /> FROM base_user  WHERE ${propertyName} = '${value}'
     </select>
 </mapper>

@@ -42,4 +42,5 @@ public class ApplicationContext {
     private List<MapperInfo> mapperInfoList;
     private List<DtoInfo> dtoInfoList;
     private List<ServiceInfo> serviceInfoList;
+    private List<ServiceImplInfo> serviceImplInfoList;
 }

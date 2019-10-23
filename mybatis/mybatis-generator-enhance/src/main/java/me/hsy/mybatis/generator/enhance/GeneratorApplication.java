@@ -12,14 +12,16 @@ public class GeneratorApplication {
         Application application = new Application(GeneratorApplication.class.getSimpleName());
         application.setApplicationName(GeneratorApplication.class.getName());
         //添加任务
-        application.addTask(InitTask.class)
+        application
+                .addTask(InitTask.class)
                 .addTask(CombineTask.class)
-//                .addTask(EntityTask.class)
-//                .addTask(DaoTask.class)
+                .addTask(EntityTask.class)
+                .addTask(DaoTask.class)
 //                .addTask(MapperTask.class)
 //                .addTask(VoTask.class)
 //                .addTask(DtoTask.class)
-                .addTask(ServiceTask.class)
+//                .addTask(ServiceTask.class)
+//                .addTask(ServiceImplTask.class)
         ;
         application.work();
     }
