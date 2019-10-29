@@ -36,13 +36,13 @@ public class ServiceImplHandle extends BaseHandler<ServiceImplInfo> {
             sb.append("import ").append(str).append(";\r\n");
         }
         this.param.put("importStr", sb.toString());
-        this.param.put("dtoName", serviceImplInfo.getServiceInfo().getDtoInfo().getClassName());
+        this.param.put("dtoName", serviceImplInfo.getServiceInfo().getDtoClassName());
         this.param.put("pkPropName", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getJavaColumnField());
         this.param.put("pkColumnType", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getJavaColumnType());
         this.param.put("pkComment", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getColumnComment());
         this.param.put("pkPropNameList", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getJavaColumnField() + "List");
-        this.param.put("voClassName", serviceImplInfo.getServiceInfo().getVoInfo().getClassName());
-        String voClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceImplInfo.getServiceInfo().getVoInfo().getClassName());
+        this.param.put("voClassName", serviceImplInfo.getServiceInfo().getVoClassName());
+        String voClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceImplInfo.getServiceInfo().getVoClassName());
         this.param.put("voClassNameToHump", voClassNameToHump);
         this.param.put("voClassNameToHumpList", voClassNameToHump + "List");
     }

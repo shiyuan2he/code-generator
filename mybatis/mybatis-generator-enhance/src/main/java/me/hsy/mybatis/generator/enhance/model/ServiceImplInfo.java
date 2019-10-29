@@ -25,4 +25,5 @@ public class ServiceImplInfo {
      * 类名
      */
     private String className;
+    private String convertClassName;
 }

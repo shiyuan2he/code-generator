@@ -24,22 +24,22 @@ public class ${className} implements ${serviceClassName} {
     /**
      * findById
      * @param ${pkPropName} ${pkComment}
-     * @return ${dtoName} 实体转换对象
+     * @return ${dtoName}  对外输出对象
      */
     ${dtoName} findById(${pkColumnType} ${pkPropName}){
-        return ${dtoName}.convert(${tableNameToHump}Dao.findById(${pkPropName}));
+        return ${convertClassName}.convert(${tableNameToHump}Dao.findById(${pkPropName}));
     }
 
     /**
      * findByParam
      * @param ${voClassNameToHump} ${serviceDesc}请求对象
-     * @return ${dtoName} 实体转换对象
+     * @return ${convertClassName} 实体转换对象
      */
     List<${dtoName}> findByParam(${voClassName} ${voClassNameToHump}){
         List<${dtoName}> list = Optional.ofNullable(
-                ${tableNameToHump}Dao.findList(${tableClassName}.convert(${voClassNameToHump})))
+                ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList());
+        return list.stream.map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList());
     }
 
     /**
@@ -50,9 +50,9 @@ public class ${className} implements ${serviceClassName} {
     PageInfo<List<${dtoName}>> findPageListByParam(Integer page, Integer limit, String sort, ${voClassName} ${voClassNameToHump}){
         PageHelper.startPage(page, limit, sort);
         List<${dtoName}> list = Optional.ofNullable(
-                ${tableNameToHump}Dao.findList(${tableClassName}.convert(${voClassNameToHump})))
+                ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return new PageInfo(list.stream.map(entity -> ${dtoName}.convert(entity)).collect(Collectors.toList()));
+        return new PageInfo(list.stream.map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList()));
     }
 
     /**
@@ -61,7 +61,7 @@ public class ${className} implements ${serviceClassName} {
      * @return Boolean 创建成功标识 true：成功 false：失败
      */
     Boolean create(${voClassName} ${voClassNameToHump}){
-        if(1 == ${tableNameToHump}Dao.insert${tableClassName}(${tableClassName}.convert(${voClassNameToHump}))){
+        if(1 == ${tableNameToHump}Dao.insert${tableClassName}(${convertClassName}.convert(${voClassNameToHump}))){
             return true;
         }
         return false;
@@ -75,7 +75,7 @@ public class ${className} implements ${serviceClassName} {
     Integer create(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.insertBatch(
                ${voClassNameToHumpList}.stream.map(entity ->
-                    ${dtoName}.convert(entity)).collect(Collectors.toList())
+                    ${convertClassName}.convert(entity)).collect(Collectors.toList())
         ;
     }
 
@@ -85,7 +85,7 @@ public class ${className} implements ${serviceClassName} {
      * @return Boolean true:更新成功， false：更新失败
      */
     Boolean update(${voClassName} ${voClassNameToHump}){
-        if(1 == ${tableNameToHump}Dao.update${tableClassName}(${tableClassName}.convert(${voClassNameToHump}))){
+        if(1 == ${tableNameToHump}Dao.update${tableClassName}(${convertClassName}.convert(${voClassNameToHump}))){
             return true;
         }
         return false;
@@ -99,7 +99,7 @@ public class ${className} implements ${serviceClassName} {
     Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.updateBatch(
                 ${voClassNameToHumpList}.stream.map(entity ->
-                ${dtoName}.convert(entity)).collect(Collectors.toList())
+                ${convertClassName}.convert(entity)).collect(Collectors.toList())
         ;
     }
 
@@ -123,7 +123,7 @@ public class ${className} implements ${serviceClassName} {
     Integer delete(List<${pkColumnType}> ${pkPropNameList}){
         return ${tableNameToHump}Dao.deleteBatch(
             ${voClassNameToHumpList}.stream.map(entity ->
-            ${dtoName}.convert(entity)).collect(Collectors.toList())
+            ${convertClassName}.convert(entity)).collect(Collectors.toList())
         ;
     }
 }

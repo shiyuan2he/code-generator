@@ -42,6 +42,9 @@
     <category name="dto" description="dto文件配置">
         <item name="package" value="me.ele.dc.dto" description="包路径"/>
     </category>
+    <category name="convert" description="">
+        <item name="package" value="me.ele.dc.utils" description="包路径"/>
+    </category>
     <category name="service" description="service配置">
         <item name="package" value="me.ele.dc.service" description="包路径"/>
     </category>

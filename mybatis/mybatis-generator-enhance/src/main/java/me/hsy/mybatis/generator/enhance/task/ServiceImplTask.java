@@ -1,14 +1,17 @@
 package me.hsy.mybatis.generator.enhance.task;
 
+import me.hsy.mybatis.generator.enhance.common.Constants;
+import me.hsy.mybatis.generator.enhance.config.Configuration;
 import me.hsy.mybatis.generator.enhance.framework.AbstractApplicationTask;
 import me.hsy.mybatis.generator.enhance.framework.context.ApplicationContext;
 import me.hsy.mybatis.generator.enhance.handler.BaseHandler;
 import me.hsy.mybatis.generator.enhance.handler.impl.ServiceImplHandle;
 import me.hsy.mybatis.generator.enhance.handler.impl.ServiceInfoHandle;
-import me.hsy.mybatis.generator.enhance.model.ServiceImplInfo;
-import me.hsy.mybatis.generator.enhance.model.ServiceInfo;
+import me.hsy.mybatis.generator.enhance.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author heshiyuan
@@ -20,12 +23,11 @@ public class ServiceImplTask extends AbstractApplicationTask {
     protected boolean doInternal(ApplicationContext context){
         try{
             logger.info("开始生成ServiceImpl");
-            List<ServiceImplInfo> dtoList = context.getServiceImplInfoList();
-            BaseHandler<ServiceImplInfo> handler = null;
-            for (ServiceImplInfo serviceImplInfo : dtoList) {
-                handler = new ServiceImplHandle(Service_Impl_FTL, serviceImplInfo);
+            context.getServiceInfoList().stream().forEach(serviceInfo -> {
+                BaseHandler<ServiceImplInfo> handler = new ServiceImplHandle(Service_Impl_FTL,
+                        generateServiceImplInfo(serviceInfo));
                 handler.execute();
-            }
+            });
             logger.info("结束生成ServiceImpl");
             return false;
         }catch (Exception e){
@@ -33,5 +35,18 @@ public class ServiceImplTask extends AbstractApplicationTask {
             return true;
         }
     }
-
+    private ServiceImplInfo generateServiceImplInfo(ServiceInfo serviceInfo) {
+        String packageNameService = Configuration.getString("serviceImpl.package");
+        ServiceImplInfo serviceInfoImpl = new ServiceImplInfo();
+        serviceInfoImpl.setPackageStr(packageNameService);
+        serviceInfoImpl.setClassName(serviceInfo.getEntityInfo().getClassName() + Constants.SERVICE_IMPL_SUFFIX);
+        List<String> importStrList = new ArrayList<>();
+        importStrList.addAll(serviceInfo.getImportStrList());
+        String convertClassName = serviceInfo.getEntityInfo().getClassName() + Constants.CONVERT_UTILS_SUFFIX;
+        importStrList.add(Configuration.getString("dto.package") + "." + convertClassName);
+        serviceInfoImpl.setImportStrList(importStrList);
+        serviceInfoImpl.setServiceInfo(serviceInfo);
+        serviceInfoImpl.setConvertClassName(convertClassName);
+        return serviceInfoImpl;
+    }
 }

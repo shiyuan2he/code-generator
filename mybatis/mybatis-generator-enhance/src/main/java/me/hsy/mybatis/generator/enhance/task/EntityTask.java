@@ -36,14 +36,5 @@ public class EntityTask extends AbstractApplicationTask {
     @Override
     protected void doAfter(ApplicationContext context) throws Exception {
         super.doAfter(context);
-        //组装Dao信息、组装Vo信息
-        context.setDaoList(entityInfoList.stream().map(entity -> {
-            DaoInfo daoInfo = new DaoInfo();
-            daoInfo.setClassName(entity.getEntityName() + Constants.DAO_SUFFIX);
-            daoInfo.setEntityInfo(entity);
-            daoInfo.setImportStr("import " + entity.getEntityPackage() + "." + entity.getClassName() + ";");
-            daoInfo.setPackageStr(Configuration.getString("dao.package"));
-            return daoInfo;
-        }).collect(Collectors.toList()));
     }
 }

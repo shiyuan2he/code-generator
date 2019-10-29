@@ -35,7 +35,8 @@ public class ServiceInfo {
      * 主键字段名
      */
     private String pkPropName;
-    private VoInfo voInfo;
-    private DtoInfo dtoInfo;
     private TableInfo tableInfo;
+    private String voClassName;
+    private String dtoClassName;
+    private EntityInfo entityInfo;
 }

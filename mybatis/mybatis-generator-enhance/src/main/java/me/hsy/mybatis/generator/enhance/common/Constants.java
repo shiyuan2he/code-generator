@@ -23,6 +23,8 @@ public class Constants {
 
     public static final String SERVICE_IMPL_SUFFIX = "ServiceImpl";
 
+    public static final String CONVERT_UTILS_SUFFIX = "ConvertUtils";
+
     public static final String CONFIG_FILE_NAME = "configuration.xml";
 
     public static final String PREFIX_JDBC = "jdbc";

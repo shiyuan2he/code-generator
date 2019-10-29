@@ -17,11 +17,12 @@ public class GeneratorApplication {
                 .addTask(CombineTask.class)
                 .addTask(EntityTask.class)
                 .addTask(DaoTask.class)
-//                .addTask(MapperTask.class)
-//                .addTask(VoTask.class)
-//                .addTask(DtoTask.class)
-//                .addTask(ServiceTask.class)
-//                .addTask(ServiceImplTask.class)
+                .addTask(MapperTask.class)
+                .addTask(VoTask.class)
+                .addTask(DtoTask.class)
+                .addTask(ServiceTask.class)
+                .addTask(ConvertUtilsTask.class)
+                .addTask(ServiceImplTask.class)
         ;
         application.work();
     }

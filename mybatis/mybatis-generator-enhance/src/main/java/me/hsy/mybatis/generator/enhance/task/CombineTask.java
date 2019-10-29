@@ -96,33 +96,4 @@ public class CombineTask extends AbstractApplicationTask {
         context.setEntityInfoList(entityInfoList);
         return false;
     }
-
-    private ServiceImplInfo generateServiceImplInfo(ServiceInfo serviceInfo, Entry<String, String> entry, VoInfo voInfo, DtoInfo dtoInfo) {
-        String packageNameService = Configuration.getString("serviceImpl.package");
-        ServiceImplInfo serviceInfoImpl = new ServiceImplInfo();
-        serviceInfoImpl.setPackageStr(packageNameService);
-        serviceInfoImpl.setClassName(entry.getValue() + Constants.SERVICE_IMPL_SUFFIX);
-        List<String> importStrList = new ArrayList<>();
-        importStrList.add(voInfo.getPackageStr() + "." + voInfo.getClassName());
-        importStrList.add(dtoInfo.getPackageStr() + "." + dtoInfo.getClassName());
-        serviceInfoImpl.setImportStrList(importStrList);
-        serviceInfoImpl.setServiceInfo(serviceInfo);
-        return serviceInfoImpl;
-    }
-
-    private ServiceInfo generateServiceInfo(Entry<String, String> entry, EntityInfo entityInfo, VoInfo voInfo, DtoInfo dtoInfo, TableInfo tableInfo) {
-        String packageNameService = Configuration.getString("service.package");
-        ServiceInfo serviceInfo = new ServiceInfo();
-        serviceInfo.setPackageStr(packageNameService);
-        serviceInfo.setClassName("I" + entry.getValue() + Constants.SERVICE_SUFFIX);
-        serviceInfo.setServiceDesc(entityInfo.getEntityDesc());
-        List<String> importStrList = new ArrayList<>();
-        importStrList.add(voInfo.getPackageStr() + "." + voInfo.getClassName());
-        importStrList.add(dtoInfo.getPackageStr() + "." + dtoInfo.getClassName());
-        serviceInfo.setImportStrList(importStrList);
-        serviceInfo.setVoInfo(voInfo);
-        serviceInfo.setDtoInfo(dtoInfo);
-        serviceInfo.setTableInfo(tableInfo);
-        return serviceInfo;
-    }
 }

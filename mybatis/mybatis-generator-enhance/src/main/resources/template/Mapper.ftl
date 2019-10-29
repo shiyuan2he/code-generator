@@ -3,7 +3,7 @@
 <mapper namespace="${namespace}">
   <resultMap id="BaseResultMap" type="${entityType}">
     <id column="ID" jdbcType="BIGINT" property="id" />
-        ${resultMap}
+    ${resultMap}
   </resultMap>
   
   <!-- 基本列 -->
@@ -85,7 +85,7 @@
   </select>
 
     <!-- (通用)根据实体名称和字段名称和字段值获取唯一记录 -->
-    <select id="queryUniqueByProperty" resultMap="BaseResultMap" statementType="STATEMENT">
-        SELECT <include refid="baseUserColumnList" /> FROM base_user  WHERE ${propertyName} = '${value}'
-    </select>
+    <!-- <select id="queryUniqueByProperty" resultMap="BaseResultMap" statementType="STATEMENT">
+        SELECT <include refid="Base_Column_List" /> FROM base_user  WHERE ${propertyName} = '${value}'
+    </select> -->
 </mapper>
