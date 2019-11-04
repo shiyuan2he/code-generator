@@ -77,6 +77,8 @@ public class MapperHandler extends BaseHandler<MapperInfo> {
         this.param.put("insertBatchProps", insertBatchProps.substring(0, insertBatchProps.length() - 1));
         this.param.put("updateColProps", updateColProps.toString());
         this.param.put("updateBatchColProps", updateBatchColProps.toString());
+        this.param.put("pkPropName", info.getTableInfo().getPkInfo().getJavaColumnField());
+        this.param.put("pkColumnType", info.getTableInfo().getPkInfo().getJavaColumnType());
     }
 
     private class Name {

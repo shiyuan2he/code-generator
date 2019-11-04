@@ -11,4 +11,5 @@ public class MapperInfo {
     private String namespace;
     private DaoInfo daoInfo;
     private EntityInfo entityInfo;
+    private TableInfo tableInfo;
 }

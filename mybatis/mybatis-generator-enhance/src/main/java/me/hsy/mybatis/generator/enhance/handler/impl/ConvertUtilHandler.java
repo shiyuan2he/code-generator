@@ -15,8 +15,8 @@ import java.util.Optional;
 /**
  * @author heshiyuan
  */
-public class ConvertUtilsHandler extends BaseHandler<ConvertUtilsInfo> {
-    public ConvertUtilsHandler(String ftlName, ConvertUtilsInfo info){
+public class ConvertUtilHandler extends BaseHandler<ConvertUtilsInfo> {
+    public ConvertUtilHandler(String ftlName, ConvertUtilsInfo info){
         this.ftlName = ftlName;
         this.info = info;
         this.savePath = Configuration.getString("base.baseDir")
@@ -30,8 +30,15 @@ public class ConvertUtilsHandler extends BaseHandler<ConvertUtilsInfo> {
         this.param.put("packageStr", convertUtilsInfo.getPackageStr());
         this.param.put("className", convertUtilsInfo.getClassName());
         StringBuilder sb = new StringBuilder();
-        for (String str : Optional.ofNullable(convertUtilsInfo.getServiceInfo().getImportStrList()).orElse(new ArrayList<>())) {
+        for (String str : Optional.ofNullable(convertUtilsInfo.getImportStrList()).orElse(new ArrayList<>())) {
             sb.append("import ").append(str).append(";\r\n");
         }
+        this.param.put("importStr", sb.toString());
+        String entityClassName = convertUtilsInfo.getServiceInfo().getEntityInfo().getClassName();
+        this.param.put("entityClassName", entityClassName);
+        this.param.put("entityClassNameToHump", StringHelper.toLowerCaseFirstOne(entityClassName));
+        this.param.put("voClassName", convertUtilsInfo.getServiceInfo().getVoClassName());
+        this.param.put("voClassNameToHump", StringHelper.toLowerCaseFirstOne(convertUtilsInfo.getServiceInfo().getVoClassName()));
+        this.param.put("dtoClassName", convertUtilsInfo.getServiceInfo().getDtoClassName());
     }
 }

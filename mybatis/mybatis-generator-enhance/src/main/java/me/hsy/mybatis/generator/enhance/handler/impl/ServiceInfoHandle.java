@@ -36,9 +36,14 @@ public class ServiceInfoHandle extends BaseHandler<ServiceInfo> {
         this.param.put("voClassName", serviceInfo.getVoClassName());
         String voClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceInfo.getVoClassName());
         this.param.put("voClassNameToHump", voClassNameToHump);
+        this.param.put("voClassNameToHumpList", voClassNameToHump + "List");
         this.param.put("entityClassName", serviceInfo.getEntityInfo().getClassName());
         String entityClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceInfo.getEntityInfo().getClassName());
         this.param.put("entityClassNameToHump", entityClassNameToHump);
         this.param.put("dtoClassName", serviceInfo.getDtoClassName());
+        this.param.put("pkPropName", serviceInfo.getTableInfo().getPkInfo().getJavaColumnField());
+        this.param.put("pkColumnType", serviceInfo.getTableInfo().getPkInfo().getJavaColumnType());
+        this.param.put("pkComment", serviceInfo.getTableInfo().getPkInfo().getColumnComment());
+        this.param.put("pkPropNameList", serviceInfo.getTableInfo().getPkInfo().getJavaColumnField() + "List");
     }
 }

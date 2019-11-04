@@ -21,7 +21,7 @@ public class GeneratorApplication {
                 .addTask(VoTask.class)
                 .addTask(DtoTask.class)
                 .addTask(ServiceTask.class)
-                .addTask(ConvertUtilsTask.class)
+                .addTask(ConvertUtilTask.class)
                 .addTask(ServiceImplTask.class)
         ;
         application.work();

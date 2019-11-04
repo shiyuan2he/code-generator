@@ -37,13 +37,17 @@ public class ServiceImplTask extends AbstractApplicationTask {
     }
     private ServiceImplInfo generateServiceImplInfo(ServiceInfo serviceInfo) {
         String packageNameService = Configuration.getString("serviceImpl.package");
+        String packageNameDao = Configuration.getString("dao.package");
         ServiceImplInfo serviceInfoImpl = new ServiceImplInfo();
         serviceInfoImpl.setPackageStr(packageNameService);
         serviceInfoImpl.setClassName(serviceInfo.getEntityInfo().getClassName() + Constants.SERVICE_IMPL_SUFFIX);
         List<String> importStrList = new ArrayList<>();
-        importStrList.addAll(serviceInfo.getImportStrList());
         String convertClassName = serviceInfo.getEntityInfo().getClassName() + Constants.CONVERT_UTILS_SUFFIX;
-        importStrList.add(Configuration.getString("dto.package") + "." + convertClassName);
+        importStrList.add(Configuration.getString("convert.package") + "." + convertClassName);
+        importStrList.add(serviceInfo.getPackageStr() + "." + serviceInfo.getClassName());
+        importStrList.add(packageNameDao + "." + serviceInfo.getEntityInfo().getClassName() + Constants.DAO_SUFFIX);
+        importStrList.add(serviceInfo.getEntityInfo().getEntityPackage() + "." + serviceInfo.getEntityInfo().getClassName());
+        importStrList.addAll(serviceInfo.getImportStrList());
         serviceInfoImpl.setImportStrList(importStrList);
         serviceInfoImpl.setServiceInfo(serviceInfo);
         serviceInfoImpl.setConvertClassName(convertClassName);

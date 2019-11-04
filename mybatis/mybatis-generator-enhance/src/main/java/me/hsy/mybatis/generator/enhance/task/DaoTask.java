@@ -29,6 +29,7 @@ public class DaoTask extends AbstractApplicationTask {
             DaoInfo daoInfo = new DaoInfo();
             daoInfo.setClassName(entity.getEntityName() + Constants.DAO_SUFFIX);
             daoInfo.setEntityInfo(entity);
+            daoInfo.setTableInfo(context.getTableInfoMap().get(entity.getTableName()));
             daoInfo.setImportStr("import " + entity.getEntityPackage() + "." + entity.getClassName() + ";");
             daoInfo.setPackageStr(Configuration.getString("dao.package"));
             BaseHandler<DaoInfo> handler = new DaoHandler(DAO_FTL, daoInfo);

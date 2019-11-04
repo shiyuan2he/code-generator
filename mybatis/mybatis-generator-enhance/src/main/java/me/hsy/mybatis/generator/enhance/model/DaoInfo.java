@@ -27,4 +27,5 @@ public class DaoInfo {
      * 实体信息
      */
     private EntityInfo entityInfo;
+    private TableInfo tableInfo;
 }

@@ -78,18 +78,15 @@
         </javaClientGenerator>
 
         <!--% 通配符 匹配数据库中的所有表-->
-        <table tableName="platform_oauth_record">
+        <table tableName="platform_third_custom_ref">
             <!-- 参考 javaModelGenerator 的 constructorBased属性 -->
             <!--<property name="constructorBased" value="false" />-->
             <!-- 主键 -->
             <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         </table>
-<<<<<<< HEAD
         <!--
         <table tableName="platform_dic_info"/>
         <table tableName="platform_dic_info_ref"/>
         <table tableName="platform_oauth_info"/>-->
-=======
->>>>>>> 111284688b5555f7cc91363e1c3598e52afb1e00
     </context>
 </generatorConfiguration>

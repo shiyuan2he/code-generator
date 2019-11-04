@@ -26,6 +26,7 @@ public class MapperTask extends AbstractApplicationTask {
             mapperInfo.setEntityInfo(dao.getEntityInfo());
             mapperInfo.setFileName(dao.getEntityInfo().getEntityName() + Constants.MAPPER_XML_SUFFIX);
             mapperInfo.setNamespace(dao.getPackageStr() + "." + dao.getClassName());
+            mapperInfo.setTableInfo(dao.getTableInfo());
             new MapperHandler(MAPPER_FTL, mapperInfo).execute();
             mapperInfoList.add(mapperInfo);
         });

@@ -28,5 +28,7 @@ public class DaoHandler extends BaseHandler<DaoInfo> {
         this.param.put("className", info.getClassName());
         this.param.put("entityClassName", info.getEntityInfo().getClassName());
         this.param.put("entityName", info.getEntityInfo().getEntityName());
+        this.param.put("pkPropName", info.getTableInfo().getPkInfo().getJavaColumnField());
+        this.param.put("pkColumnType", info.getTableInfo().getPkInfo().getJavaColumnType());
     }
 }

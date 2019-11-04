@@ -32,10 +32,15 @@ public class ServiceImplHandle extends BaseHandler<ServiceImplInfo> {
         this.param.put("tableClassName", StringHelper.toUpperCaseFirstOne(tableNameToHump));
         this.param.put("tableNameToHump", StringHelper.toLowerCaseFirstOne(tableNameToHump));
         StringBuilder sb = new StringBuilder();
-        for (String str : Optional.ofNullable(serviceImplInfo.getServiceInfo().getImportStrList()).orElse(new ArrayList<>())) {
-            sb.append("import ").append(str).append(";\r\n");
+        for (String str : Optional.ofNullable(serviceImplInfo.getImportStrList()).orElse(new ArrayList<>())) {
+            if(str.contains("import")){
+                sb.append(str).append(";\r\n");
+            }else{
+                sb.append("import ").append(str).append(";\r\n");
+            }
         }
         this.param.put("importStr", sb.toString());
+        this.param.put("entityName", serviceImplInfo.getServiceInfo().getEntityInfo().getClassName());
         this.param.put("dtoName", serviceImplInfo.getServiceInfo().getDtoClassName());
         this.param.put("pkPropName", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getJavaColumnField());
         this.param.put("pkColumnType", serviceImplInfo.getServiceInfo().getTableInfo().getPkInfo().getJavaColumnType());
@@ -45,5 +50,6 @@ public class ServiceImplHandle extends BaseHandler<ServiceImplInfo> {
         String voClassNameToHump = StringHelper.toLowerCaseFirstOne(serviceImplInfo.getServiceInfo().getVoClassName());
         this.param.put("voClassNameToHump", voClassNameToHump);
         this.param.put("voClassNameToHumpList", voClassNameToHump + "List");
+        this.param.put("convertClassName", serviceImplInfo.getConvertClassName());
     }
 }

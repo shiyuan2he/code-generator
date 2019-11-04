@@ -9,7 +9,7 @@ ${importStr}
  *  @date  ${time}
  * </pre>
  */
-public class ${className} implements Serializable {
+public class ${className}{
 
     public static ${entityClassName} convert(${voClassName} ${voClassNameToHump}){
         ${entityClassName} entity = new ${entityClassName}();
@@ -18,7 +18,7 @@ public class ${className} implements Serializable {
     }
 
     public static ${dtoClassName} convert(${entityClassName} ${entityClassNameToHump}){
-        ${dtoClassName} dto = new ${dtoClassName};
+        ${dtoClassName} dto = new ${dtoClassName}();
         BeanUtils.copyProperties(${entityClassNameToHump}, dto);
         return dto;
     }

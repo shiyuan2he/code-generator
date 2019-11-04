@@ -61,7 +61,7 @@ public interface ${className} {
      * @param ${voClassNameToHumpList} 批量更新实体list
      * @return Integer 批量更新的条数
      */
-    Integer update(List<${voClassName}> ${voClassNameToHumpList});
+    Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList});
 
     /**
      * delete 单体删除

@@ -1,6 +1,8 @@
 package ${packageStr};
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ ${importStr}
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public class ${className} implements ${serviceClassName} {
 
     @Autowired
@@ -26,7 +29,8 @@ public class ${className} implements ${serviceClassName} {
      * @param ${pkPropName} ${pkComment}
      * @return ${dtoName}  对外输出对象
      */
-    ${dtoName} findById(${pkColumnType} ${pkPropName}){
+    @Override
+    public ${dtoName} findById(${pkColumnType} ${pkPropName}){
         return ${convertClassName}.convert(${tableNameToHump}Dao.findById(${pkPropName}));
     }
 
@@ -35,11 +39,12 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHump} ${serviceDesc}请求对象
      * @return ${convertClassName} 实体转换对象
      */
-    List<${dtoName}> findByParam(${voClassName} ${voClassNameToHump}){
-        List<${dtoName}> list = Optional.ofNullable(
+    @Override
+    public List<${dtoName}> findByParam(${voClassName} ${voClassNameToHump}){
+        List<${entityName}> list = Optional.ofNullable(
                 ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return list.stream.map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList());
+        return list.stream().map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList());
     }
 
     /**
@@ -47,12 +52,13 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHump} ${serviceDesc}请求对象
      * @return ${dtoName} 实体转换对象
      */
-    PageInfo<List<${dtoName}>> findPageListByParam(Integer page, Integer limit, String sort, ${voClassName} ${voClassNameToHump}){
+    @Override
+    public PageInfo<List<${dtoName}>> findPageListByParam(Integer page, Integer limit, String sort, ${voClassName} ${voClassNameToHump}){
         PageHelper.startPage(page, limit, sort);
-        List<${dtoName}> list = Optional.ofNullable(
+        List<${entityName}> list = Optional.ofNullable(
                 ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return new PageInfo(list.stream.map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList()));
+        return new PageInfo(list.stream().map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList()));
     }
 
     /**
@@ -60,7 +66,8 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHump} ${serviceDesc}请求对象
      * @return Boolean 创建成功标识 true：成功 false：失败
      */
-    Boolean create(${voClassName} ${voClassNameToHump}){
+    @Override
+    public Boolean create(${voClassName} ${voClassNameToHump}){
         if(1 == ${tableNameToHump}Dao.insert${tableClassName}(${convertClassName}.convert(${voClassNameToHump}))){
             return true;
         }
@@ -72,10 +79,11 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHumpList} ${serviceDesc}请求对象
      * @return ${dtoName} 实体转换对象
      */
-    Integer create(List<${voClassName}> ${voClassNameToHumpList}){
+    @Override
+    public Integer create(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.insertBatch(
-               ${voClassNameToHumpList}.stream.map(entity ->
-                    ${convertClassName}.convert(entity)).collect(Collectors.toList())
+               ${voClassNameToHumpList}.stream().map(entity ->
+                    ${convertClassName}.convert(entity)).collect(Collectors.toList()))
         ;
     }
 
@@ -84,7 +92,8 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHump} ${serviceDesc}请求对象
      * @return Boolean true:更新成功， false：更新失败
      */
-    Boolean update(${voClassName} ${voClassNameToHump}){
+    @Override
+    public Boolean update(${voClassName} ${voClassNameToHump}){
         if(1 == ${tableNameToHump}Dao.update${tableClassName}(${convertClassName}.convert(${voClassNameToHump}))){
             return true;
         }
@@ -96,10 +105,11 @@ public class ${className} implements ${serviceClassName} {
      * @param ${voClassNameToHumpList} 批量更新实体list
      * @return Integer 批量更新的条数
      */
-    Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
+    @Override
+    public Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.updateBatch(
-                ${voClassNameToHumpList}.stream.map(entity ->
-                ${convertClassName}.convert(entity)).collect(Collectors.toList())
+                ${voClassNameToHumpList}.stream().map(entity ->
+                ${convertClassName}.convert(entity)).collect(Collectors.toList()))
         ;
     }
 
@@ -108,8 +118,9 @@ public class ${className} implements ${serviceClassName} {
      * @param ${pkPropName} ${pkComment}
      * @return Boolean true:删除成功， false：删除失败
      */
-    Boolean delete(${pkColumnType} ${pkPropName}){
-        if(1 == ${tableNameToHump}Dao.delete${tableClassName}(${pkPropName})){
+    @Override
+    public Boolean delete(${pkColumnType} ${pkPropName}){
+        if(1 == ${tableNameToHump}Dao.deleteById(${pkPropName})){
             return true;
         }
         return false;
@@ -120,10 +131,8 @@ public class ${className} implements ${serviceClassName} {
      * @param ${pkPropNameList} ${pkComment}
      * @return Integer 删除成功的条数
      */
-    Integer delete(List<${pkColumnType}> ${pkPropNameList}){
-        return ${tableNameToHump}Dao.deleteBatch(
-            ${voClassNameToHumpList}.stream.map(entity ->
-            ${convertClassName}.convert(entity)).collect(Collectors.toList())
-        ;
+    @Override
+    public Integer delete(List<${pkColumnType}> ${pkPropNameList}){
+        return ${tableNameToHump}Dao.deleteBatch(${pkPropNameList});
     }
 }
