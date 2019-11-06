@@ -22,6 +22,7 @@ public class Constants {
     public static final String SERVICE_SUFFIX = "Service";
 
     public static final String SERVICE_IMPL_SUFFIX = "ServiceImpl";
+    public static final String CONTROLLER_SUFFIX = "Controller";
 
     public static final String CONVERT_UTILS_SUFFIX = "ConvertUtils";
 

@@ -23,6 +23,7 @@ public class GeneratorApplication {
                 .addTask(ServiceTask.class)
                 .addTask(ConvertUtilTask.class)
                 .addTask(ServiceImplTask.class)
+                .addTask(ControllerTask.class)
         ;
         application.work();
     }
