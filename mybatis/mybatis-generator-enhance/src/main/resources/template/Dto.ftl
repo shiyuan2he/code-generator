@@ -18,11 +18,11 @@ public class ${className} implements Serializable {
 <#list columnList as column>
     <#if column.columnComment != ''>
     /**
+     * 处理精度丢失问题
      * ${column.columnComment}
      */
     </#if>
     <#if column.propType = 'Long'>
-    // 处理精度丢失问题
     @JsonSerialize(using= ToStringSerializer.class)
     </#if>
     private ${column.propType} ${column.propName};
