@@ -20,9 +20,6 @@ import me.hsy.mybatis.generator.enhance.model.TableInfo;
 import me.hsy.mybatis.generator.enhance.config.Configuration;
 import me.hsy.mybatis.generator.enhance.framework.context.ApplicationContext;
 import me.hsy.mybatis.generator.enhance.model.ColumnInfo;
-
-import javax.xml.transform.Result;
-
 /**
  * @author heshiyuan
  */
@@ -55,8 +52,13 @@ public class InitTask extends AbstractApplicationTask {
         tableList = StringUtil.splitStr2List(Configuration.getString("base.tableNames"), ",");
         logger.info("需要生成的表：{}", tableList);
         //对应的实体名
-        List<String> entityNames = tableList.stream().map(table -> StringHelper.lineToHump(table)).collect(Collectors.toList());
-        logger.info("需要生成的表：{}", entityNames);
+        List<String> entityNames = tableList.stream().map(table -> {
+            if(table.startsWith("t_")){
+                table = table.substring(1, table.length());
+            }
+            return StringHelper.lineToHump(table);
+        }).collect(Collectors.toList());
+        logger.info("需要生成的类：{}", entityNames);
 
         //添加映射关系
         Map<String, String> table2Entity = new HashMap<>(10);

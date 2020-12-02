@@ -6,10 +6,8 @@ ${importStr}
 
 /**
  * ${entityDesc}Dao
- * <pre>
  *  @author ${author}
  *  @date  ${time}
- * </pre>
  */
 @Mapper
 public interface ${className}{

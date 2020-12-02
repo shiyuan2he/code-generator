@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.ToString;
 /**
  * ${entityDesc}vo
- * <pre>
  *  @author ${author}
  *  @date  ${time}
- * </pre>
  */
 @Data
 @ToString

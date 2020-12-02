@@ -4,10 +4,8 @@ ${importStr}
 
 /**
  * ${tableComment} JavaBean转换工具
- * <pre>
  *  @author ${author}
  *  @date  ${time}
- * </pre>
  */
 public class ${className}{
 

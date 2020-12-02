@@ -6,10 +6,8 @@ ${importStr}
 
 /**
  * ${tableComment}实体
- * <pre>
  *  @author ${author}
  *  @date  ${time}
- * </pre>
  */
 @Data
 @ToString
