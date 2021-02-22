@@ -18,7 +18,6 @@ public class ${className} implements Serializable {
 <#list columnList as column>
     <#if column.columnComment != ''>
     /**
-     * 处理精度丢失问题
      * ${column.columnComment}
      */
     </#if>

@@ -2,33 +2,33 @@
 <system>
     <!--<properties resource="config.properties"></properties>-->
     <property name="jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-    <property name="jdbc.url" value="jdbc:mariadb://localhost:3306/seckill?useUnicode=yes&amp;characterEncoding=UTF8&amp;allowMultiQueries=true"/>
-    <property name="jdbc.username" value="root"/>
-    <property name="jdbc.password" value="root@mariadb"/>
-    <property name="jdbc.database" value="seckill"/>
-    <property name="table" value="t_goods,t_order,t_user"/>
+    <property name="jdbc.url" value="jdbc:mariadb://120.92.79.194:3306/tangram_v3_dev?useUnicode=yes&amp;characterEncoding=UTF8&amp;allowMultiQueries=true"/>
+    <property name="jdbc.username" value="lima_user"/>
+    <property name="jdbc.password" value="Mysql@1234"/>
+    <property name="jdbc.database" value="tangram_v3_dev"/>
+    <property name="table" value="org_info_extend"/>
     <property name="jdbc.targetProject" value="/Users/heshiyuan/Desktop/data"/>
-    <property name="jdbc.basePackage" value="org.miao.sha"/>
+    <property name="jdbc.basePackage" value="com.lima.grainbuds.organization"/>
     <jdbc>
         <item name="driverName" value="org.mariadb.jdbc.Driver" description="驱动名称"/>
-        <item name="url" value="jdbc:mariadb://localhost:3306/seckill?useUnicode=yes&amp;characterEncoding=UTF8&amp;allowMultiQueries=true" description="url"/>
-        <item name="username" value="root" description="用户名"/>
-        <item name="password" value="root@mariadb" description="密码"/>
+        <item name="url" value="jdbc:mariadb://120.92.79.194:3306/tangram_v3_dev?useUnicode=yes&amp;characterEncoding=UTF8&amp;allowMultiQueries=true" description="url"/>
+        <item name="username" value="lima_user" description="用户名"/>
+        <item name="password" value="Mysql@1234" description="密码"/>
     </jdbc>
 
   <category name="base" description="基础配置">
     <item name="database" value="dblog" description="数据库"/>
     <item name="schemaPattern" value="root" description="每个用户对应一个同名的schema"/>
-    <item name="tableNames" value="t_goods,t_order,t_user" description="需要工具生成的表，逗号分隔"/>
+    <item name="tableNames" value="org_info_extend" description="需要工具生成的表，逗号分隔"/>
     <item name="baseDir" value="/Users/heshiyuan/Desktop/data" description="文件存放的根目录"/>
   </category>
   
   <category name="entity" description="实体配置">
-    <item name="package" value="org.miao.sha.entity" description="包路径"/>
+    <item name="package" value="com.lima.grainbuds.organization.entity" description="包路径"/>
   </category>
   
   <category name="dao" description="dao配置">
-    <item name="package" value="org.miao.sha.mapper" description="包路径"/>
+    <item name="package" value="com.lima.grainbuds.organization.mapper" description="包路径"/>
   </category>
   
   <category name="mapperXml" description="mapper文件配置">
@@ -36,22 +36,22 @@
   </category>
 
   <category name="vo" description="vo文件配置">
-    <item name="package" value="org.miao.sha.vo" description="包路径"/>
+    <item name="package" value="com.lima.grainbuds.organization.vo" description="包路径"/>
   </category>
 
     <category name="dto" description="dto文件配置">
-        <item name="package" value="org.miao.sha.dto" description="包路径"/>
+        <item name="package" value="com.lima.grainbuds.organization.dto" description="包路径"/>
     </category>
     <category name="convert" description="">
-        <item name="package" value="org.miao.sha.utils" description="包路径"/>
+        <item name="package" value="com.lima.grainbuds.organization.utils" description="包路径"/>
     </category>
     <category name="service" description="service配置">
-        <item name="package" value="org.miao.sha.service" description="包路径"/>
+        <item name="package" value="com.lima.grainbuds.organization.service" description="包路径"/>
     </category>
     <category name="serviceImpl" description="serviceImpl配置">
-        <item name="package" value="org.miao.sha.service.impl" description="包路径"/>
+        <item name="package" value="com.lima.grainbuds.organization.service.impl" description="包路径"/>
     </category>
     <category name="controller" description="serviceImpl配置">
-        <item name="package" value="org.miao.sha.controller" description="包路径"/>
+        <item name="package" value="com.lima.grainbuds.organization.controller" description="包路径"/>
     </category>
 </system>

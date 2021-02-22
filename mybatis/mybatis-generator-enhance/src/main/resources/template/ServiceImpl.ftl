@@ -44,7 +44,7 @@ public class ${className} implements ${serviceClassName} {
         List<${entityName}> list = Optional.ofNullable(
                 ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return list.stream().map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList());
+        return list.stream().map(${convertClassName}::convert).collect(Collectors.toList());
     }
 
     /**
@@ -58,7 +58,7 @@ public class ${className} implements ${serviceClassName} {
         List<${entityName}> list = Optional.ofNullable(
                 ${tableNameToHump}Dao.findList(${convertClassName}.convert(${voClassNameToHump})))
                 .orElse(new ArrayList<>());
-        return new PageInfo(list.stream().map(entity -> ${convertClassName}.convert(entity)).collect(Collectors.toList()));
+        return new PageInfo(list.stream().map(${convertClassName}::convert).collect(Collectors.toList()));
     }
 
     /**
@@ -82,8 +82,7 @@ public class ${className} implements ${serviceClassName} {
     @Override
     public Integer create(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.insertBatch(
-               ${voClassNameToHumpList}.stream().map(entity ->
-                    ${convertClassName}.convert(entity)).collect(Collectors.toList()))
+               ${voClassNameToHumpList}.stream().map(${convertClassName}::convert).collect(Collectors.toList()))
         ;
     }
 
@@ -108,8 +107,7 @@ public class ${className} implements ${serviceClassName} {
     @Override
     public Integer updateBatch(List<${voClassName}> ${voClassNameToHumpList}){
         return ${tableNameToHump}Dao.updateBatch(
-                ${voClassNameToHumpList}.stream().map(entity ->
-                ${convertClassName}.convert(entity)).collect(Collectors.toList()))
+                ${voClassNameToHumpList}.stream().map(${convertClassName}::convert).collect(Collectors.toList()))
         ;
     }
 
