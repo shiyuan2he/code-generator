@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <version.lombok>1.16.16</version.lombok>
-        <version.mybatis>3.4.6</version.mybatis>
+        <version.mybatis>3.5.6</version.mybatis>
         <version.mybatis.generator>1.3.6</version.mybatis.generator>
         <version.logback>1.2.3</version.logback>
     </properties>
